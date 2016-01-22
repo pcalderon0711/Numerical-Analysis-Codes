@@ -17,17 +17,19 @@ h = (b-a)/N;
 x = a:h:b;
 I = 0;
 
-if method == "T"
+if method == 'T'
 	for i = 1:N-1
-		I += h*f(x(i));
+		I = I + h*f(x(i));
 	end
-	I += (h/2) * (f(a) + f(b));
-elseif method == "S"
+	I = I + (h/2) * (f(a) + f(b));
+elseif method == 'S'
 	for i = 1:N-1
-		I += f(x(i)) + 4*f((x(i)+x(i+1))/2) + f(x(i+1));
+		I = I + f(x(i)) + 4*f((x(i)+x(i+1))/2) + f(x(i+1));
 	end
 	I = I*(h/6);
 else
-	fprintf("Enter valid method: T or S.")
+	fprintf('Enter valid method: T or S.')
 	return;
 end
+
+% PREPARED BY PIO CALDERON

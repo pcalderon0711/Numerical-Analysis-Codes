@@ -26,19 +26,26 @@ if mode == 'E'
 		for i=1:numVar
 			% We convert Y(t,1:numVar) to a cell array with num2cell, then
 			% we use the {:} operator to convert it to a comma-septd list
-			Y(t+1,i)=Y(t,i)+h*f{i}(T(t),num2cell(Y(t,1:numVar)){:});
+            r=num2cell(Y(t,1:numVar));
+			Y(t+1,i)=Y(t,i)+h*f{i}(T(t),r{:});
 		end
 	end
 elseif mode == 'R'
 	for t=1:M
 		for i=1:numVar
-			f1=f{i}(T(t),num2cell(Y(t,1:numVar)){:});
-			f2=f{i}(T(t)+h/2,num2cell(Y(t,1:numVar)+(h*f1)/2){:});
-			f3=f{i}(T(t)+h/2,num2cell(Y(t,1:numVar)+(h*f2)/2){:});
-			f4=f{i}(T(t)+h,num2cell(Y(t,1:numVar)+h*f3){:});
+            r1=num2cell(Y(t,1:numVar));
+			f1=f{i}(T(t),r1{:});
+            r2=num2cell(Y(t,1:numVar)+(h*f1)/2);
+			f2=f{i}(T(t)+h/2,r2{:});
+            r3=num2cell(Y(t,1:numVar)+(h*f2)/2);
+			f3=f{i}(T(t)+h/2,r3{:});
+            r4=num2cell(Y(t,1:numVar)+h*f3);
+			f4=f{i}(T(t)+h,r4{:});
 			Y(t+1,i)=Y(t,i)+(h/6)*(f1+2*f2+2*f3+f4);
 		end
 	end
 else
-	fprintf("Please enter valid mode: E or R.")
+	fprintf('Please enter valid mode: E or R.')
 end
+
+% PREPARED BY PIO CALDERON 2010-09736
